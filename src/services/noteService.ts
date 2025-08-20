@@ -15,7 +15,10 @@ export const fetchNotes = async (
   search?: string
 ): Promise<FetchNotesResponse> => {
   const params = { page, perPage: 12, ...(search && { search }) };
-  const { data } = await axios.get(`${BASE_URL}/notes`, { headers, params });
+  const { data } = await axios.get<FetchNotesResponse>(`${BASE_URL}/notes`, {
+    headers,
+    params,
+  });
   return data;
 };
 
@@ -24,11 +27,11 @@ export const createNote = async (note: {
   content: string;
   tag: NoteTag;
 }): Promise<Note> => {
-  const { data } = await axios.post(`${BASE_URL}/notes`, note, { headers });
+  const { data } = await axios.post<Note>(`${BASE_URL}/notes`, note, { headers });
   return data;
 };
 
 export const deleteNote = async (id: string): Promise<Note> => {
-  const { data } = await axios.delete(`${BASE_URL}/notes/${id}`, { headers });
+  const { data } = await axios.delete<Note>(`${BASE_URL}/notes/${id}`, { headers });
   return data;
 };

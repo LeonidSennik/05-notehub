@@ -25,15 +25,21 @@ export default function App() {
     queryKey: ['notes', page, debouncedSearch],
     queryFn: () => fetchNotes(page, debouncedSearch),
     staleTime: 1000 * 60,
+    placeholderData: (prevData) => prevData,
   });
 
   const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 1;
 
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1); 
+  };
+
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox value={search} onChange={setSearch} />
+        <SearchBox value={search} onChange={handleSearchChange} />
         {totalPages > 1 && (
           <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         )}
@@ -52,5 +58,4 @@ export default function App() {
         </Modal>
       )}
     </div>
-  );
-}console.log('TOKEN:', import.meta.env.VITE_NOTEHUB_TOKEN);
+  );}
